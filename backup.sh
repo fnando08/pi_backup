@@ -43,11 +43,11 @@ function SHOW_HELP {
 			echo "Usage $(basename $0) OPTIONS [DEVICE] [OUTPUT_DIR]";
 			echo "";
 			echo "Options:";
-			echo "    -h | --help                                   Show this help";
-			echo "    -b | --before COMMAND         Execute before backup (ej: stop some services)"
-			echo "    -a | --after COMMAND             Execute after backup (ej: start some services)"
-			echo "    -l  | --log FILENAME                 Log the process on a file"
-			echo "    -q | --quiet                                  Don't output any message"
+			echo "    -h | --help 		Show this help";
+			echo "    -b | --before COMMAND 	Execute before backup (ex: stop some services)"
+			echo "    -a | --after COMMAND 	Execute after backup (ex: start some services)"
+			echo "    -l | --log FILENAME 	Log the process on a file"
+			echo "    -q | --quiet 		Don't show any output messages"
 }
 
 EXECUTE_BEFORE=''
