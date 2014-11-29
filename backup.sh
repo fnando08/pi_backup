@@ -26,7 +26,7 @@ fi
 function print 
 {
 	if [[ $QUIET == 0 ]]; then
-		echo -ne "[$(date +%Y/%m/%d %H:%M:%S)] $1";
+		echo -ne "[$(date +'%Y/%m/%d %H:%M:%S')] $1";
 	fi
 	if [[ $LOG == 1 ]]; then
 		echo -ne $1 >> "$LOG_DIR";
