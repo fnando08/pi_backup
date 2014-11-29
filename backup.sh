@@ -26,7 +26,7 @@ fi
 function print 
 {
 	if [[ $QUIET == 0 ]]; then
-		echo -ne "[$(date +%Y/%m/%d_%H:%M:%S)] $1";
+		echo -ne "[$(date +%Y/%m/%d %H:%M:%S)] $1";
 	fi
 	if [[ $LOG == 1 ]]; then
 		echo -ne $1 >> "$LOG_DIR";
@@ -43,11 +43,11 @@ function SHOW_HELP {
 			echo "Usage $(basename $0) OPTIONS [DEVICE] [OUTPUT_DIR]";
 			echo "";
 			echo "Options:";
-			echo "    -h | --help 		Show this help";
-			echo "    -b | --before COMMAND 	Execute before backup (ex: stop some services)"
-			echo "    -a | --after COMMAND 	Execute after backup (ex: start some services)"
-			echo "    -l | --log FILENAME 	Log the process on a file"
-			echo "    -q | --quiet 		Don't show any output messages"
+			echo "    -h 		Show this help";
+			echo "    -b COMMAND 	Execute before backup (ex: stop some services)"
+			echo "    -a COMMAND 	Execute after backup (ex: start some services)"
+			echo "    -l FILENAME 	Log the process on a file"
+			echo "    -q   		Don't show any output messages"
 }
 
 EXECUTE_BEFORE=''
@@ -56,7 +56,7 @@ QUIET=0
 LOG=0
 COMPRESS=0
 
-while getopts " hb:a:ql:d:c --help --before --after --quiet --log --compress" opt;  do
+while getopts "hb:a:ql:d:c" opt;  do
 	case $opt in
 		h)
 			SHOW_HELP
@@ -64,11 +64,9 @@ while getopts " hb:a:ql:d:c --help --before --after --quiet --log --compress" op
 		;;
 		b)
 			EXECUTE_BEFORE=$OPTARG
-			println "The command \"$OPTARG\" will be executed before backup process"
 			;;
 		a)
 		 EXECUTE_AFTER=$OPTARG
-		 println "The command \"$OPTARG\" will be executed after backup process"
 		 ;;
 		q)
 		 QUIET=1
@@ -120,6 +118,7 @@ eval $EXECUTE_BEFORE
 
 # Begin the backup process
 println "This will take some time depending on your SD card size and read performance. Please wait..."
+println "If you have selected the compress option, it may take a long time due the low-end Raspberry Pi CPU"
 SDSIZE=`blockdev --getsize64 $DEVICE`;
 pv -tpreb $DEVICE -s $SDSIZE | dd of=$OFILE bs=1M conv=sync,noerror iflag=fullblock
 
@@ -129,7 +128,7 @@ RESULT=$?
 eval $EXECUTE_AFTER
 
 # If command has completed successfully, delete previous backups and exit
-if [ $RESULT = 0 ]; then			
+if [ $RESULT = 0 ]; then
 	if [ $COMPRESS = 1 ]; then
 		println "Compressing..."
 		tar zcf $OFILE.tar.gz $OFILE

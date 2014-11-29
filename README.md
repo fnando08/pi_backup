@@ -15,16 +15,16 @@ Pi Backup Tool v1.0.0
 Usage backup.sh OPTIONS [DEVICE] [OUTPUT_DIR]
 
 Options:
-    -h | --help                 Show this help
-    -b | --before COMMAND       Execute before backup (ex: stop some services)
-    -a | --after COMMAND        Execute after backup (ex: start some services)
-    -l | --log FILENAME         Log file
-    -q | --quiet                Don't show any output messages
+    -h               Show this help
+    -b COMMAND       Execute before backup (ex: stop some services)
+    -a COMMAND       Execute after backup (ex: start some services)
+    -l FILENAME      Log file
+    -q               Don't show any output messages
 
 
 ___Example___
 
-sudo ~/scripts/backup.sh -b "service apache2 stop" -a "service apache2 start" -c -l "/media/hdd/backups.log" /dev/mmcblk0 /media/hdd/backups
+sudo ~/scripts/backup.sh -b"service apache2 stop" -a"service apache2 start" -c -l"/media/hdd/backups.log" /dev/mmcblk0 /media/hdd/backups
 
 __Note__
 
