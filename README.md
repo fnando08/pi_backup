@@ -11,6 +11,7 @@ This script does an image backup of the Pi SD card using dd. It is not the most 
 
 __Usage__
 
+```
 Pi Backup Tool v1.0.0
 Usage backup.sh OPTIONS [DEVICE] [OUTPUT_DIR]
 
@@ -20,7 +21,7 @@ Options:
     -a COMMAND       Execute after backup (ex: start some services)
     -l FILENAME      Log file
     -q               Don't show any output messages
-
+```
 
 ___Example___
 
