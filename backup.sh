@@ -106,7 +106,7 @@ if [ ! -d "$DIR" ]; then
 fi
 
 # Create a filename with datestamp for our current backup (without .img suffix)
-OFILE="$DIR/backup_$(date +%Y%m%d%H%M%S).img"
+OFILE="$DIR/$(basename $DEVICE)_$(date +%Y%m%d_%H%M%S).img"
 
 println "Starting backup process of $DEVICE to $OFILE..."
 
