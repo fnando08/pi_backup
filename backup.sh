@@ -46,6 +46,7 @@ function SHOW_HELP {
 			echo "    -h 		Show this help";
 			echo "    -b COMMAND 	Execute before backup (ex: stop some services)"
 			echo "    -a COMMAND 	Execute after backup (ex: start some services)"
+			echo "    -c 		Compress backup"
 			echo "    -l FILENAME 	Log the process on a file"
 			echo "    -q   		Don't show any output messages"
 }
@@ -106,7 +107,9 @@ if [ ! -d "$DIR" ]; then
 fi
 
 # Create a filename with datestamp for our current backup (without .img suffix)
-OFILE="$DIR/$(basename $DEVICE)_$(date +%Y%m%d_%H%M%S).img"
+OFILEBASE="$DIR/$(hostname)_$(basename $DEVICE)"
+OFILE="${OFILEBASE}_$(date +%Y%m%d_%H%M%S).img"
+OFILEPATTERN="${OFILEBASE}_*.img"
 
 println "Starting backup process of $DEVICE to $OFILE..."
 
@@ -133,7 +136,12 @@ if [ $RESULT = 0 ]; then
 		println "Compressing..."
 		tar zcf $OFILE.tar.gz $OFILE
 		rm -rf $OFILE
+		OFILEPATTERN="${OFILEPATTERN}.tar.gz"
 	fi
+	for file in `ls -t $OFILEPATTERN | tail -n +5`; do
+                echo "Already existing previous backup $file"
+		echo "rm -f $file should have been removed"
+        done
 	println "Backup was successfull!"
 	exit 0
 # Else remove attempted backup file
